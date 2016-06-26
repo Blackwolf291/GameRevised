@@ -39,8 +39,8 @@ public class Saver {
 		save(fileName);
 	}
 
-	public void manualSave(String rawFileName) {
-		String fileName = rawFileName + ".save";
+	public void manualSave() {
+		String fileName = user.askSaveName(saveFolder.listFiles()) + ".save";
 		gatherSaveData();
 		if (new File(saveFolder, fileName).exists()){
 			if(user.askConfirmOverwrite()){

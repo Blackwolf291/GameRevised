@@ -1,20 +1,27 @@
 package nl.ShadeBlackwolf.ui;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import nl.ShadeBlackwolf.UI;
 import nl.ShadeBlackwolf.player.Perk;
+import nl.ShadeBlackwolf.player.Player;
 import nl.ShadeBlackwolf.player.PlayerRace;
 
 @Component
 public class UserRequestHandler {
 
 	@Autowired
-	private UI ui;
+	private GameScreen ui;
 	
 	@Autowired
 	private InputParser inputParser;
+	
+	@Autowired
+	private Player player;
 	
 	public String askName() {
 		ui.println("A Bear of a sailor blocks access to the cruiseship you were lucky enough to win tickets for.");
@@ -57,5 +64,29 @@ public class UserRequestHandler {
 	public boolean reaskBoolean() {
 		// TODO Auto-generated method stub
 		return inputParser.getBoolean();
+	}
+
+	public File askWhichLoad(File[] files) {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String askSaveName(File[] files) {
+		ui.println("What would you like to name your savegame?");
+		ui.println("Current save files: (can be overwritten)");
+		displaySaves(files);
+		ui.setInput(player.getName());
+		return inputParser.getCapSensitiveString();
+	}
+
+	public void displaySaves(File[] files) {
+		for (File f : files){
+			try {
+				ui.println(f.getName() + ", saved:" + Files.getLastModifiedTime(f.toPath()));
+			} catch (IOException e) {
+				//ignore and proceed
+			}
+		}
 	}
 }
