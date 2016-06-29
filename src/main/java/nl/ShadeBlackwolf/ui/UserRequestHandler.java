@@ -66,10 +66,10 @@ public class UserRequestHandler {
 		return inputParser.getBoolean();
 	}
 
-	public File askWhichLoad(File[] files) {
-		return null;
-		// TODO Auto-generated method stub
-		
+	public File askWhichLoad(File[] saves) {
+		ui.println("Which file would you like to load?");
+		displaySaves(saves);
+		return inputParser.getFileFromSaves(saves);
 	}
 
 	public String askSaveName(File[] files) {
@@ -77,7 +77,7 @@ public class UserRequestHandler {
 		ui.println("Current save files: (can be overwritten)");
 		displaySaves(files);
 		ui.setInput(player.getName());
-		return inputParser.getCapSensitiveString();
+		return inputParser.getCancellableCapSensitiveString();
 	}
 
 	public void displaySaves(File[] files) {
@@ -88,5 +88,10 @@ public class UserRequestHandler {
 				//ignore and proceed
 			}
 		}
+	}
+
+	public File reaskLoad() {
+		ui.println("That is not a file");
+		return null;
 	}
 }

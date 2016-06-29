@@ -65,8 +65,8 @@ public class SaveTest {
 	
 	@Test
 	public void fileIsCreated(){
-		parser.preLoadParser(new ArrayList<String>(Arrays.asList(fileName,"y")));
-		File file = new File("saves", fileName);
+		parser.preLoadParser(new ArrayList<String>(Arrays.asList(fileName)));
+		File file = new File("saves", fileName +".save");
 		saver.manualSave();
 		assertTrue(file.exists());
 		file.delete();
@@ -88,7 +88,7 @@ public class SaveTest {
 	@Test
 	public void createdFileContainsPlayerData() throws IOException{
 		parser.preLoadParser(new ArrayList<String>(Arrays.asList(fileName,"yes")));
-		File file = new File("saves", fileName);
+		File file = new File("saves", fileName + ".save");
 		saver.manualSave();
 		Map<String, String> fieldsInSaveFile = utils.parseFile(file);
 		assertTrue(fieldsInSaveFile.containsKey("name"));

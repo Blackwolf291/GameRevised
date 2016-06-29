@@ -75,7 +75,7 @@ public class GameScreen extends JFrame implements UI{
 	String getText(){
 		return outputField.getText();
 	}
-	void setInput(String text){
+	public void setInput(String text){
 		inputField.setText(text);
 	}
 	class OnEnter extends AbstractAction{

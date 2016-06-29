@@ -17,7 +17,6 @@ public class SaveTestUtils {
 		for (File s : saves.listFiles()){
 			s.delete();
 		}
-		saves.delete();
 	}
 	
 

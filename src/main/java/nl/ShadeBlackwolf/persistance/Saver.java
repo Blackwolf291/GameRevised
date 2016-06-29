@@ -12,6 +12,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import nl.ShadeBlackwolf.UI;
+import nl.ShadeBlackwolf.exceptions.Cancel;
 import nl.ShadeBlackwolf.ui.UserRequestHandler;
 
 @Component
@@ -26,6 +28,9 @@ public class Saver {
 	private File saveFolder = new File ("saves");
 	private Map<String, String> saveData = new HashMap<>();
 	
+	@Autowired
+	private UI ui;
+	
 	@PostConstruct
 	private void createSaveFolder(){
 		if (!saveFolder.exists()){
@@ -37,15 +42,25 @@ public class Saver {
 		String fileName = "AutoSave_" + saveData.get("name") + ".save";
 		gatherSaveData();
 		save(fileName);
+		ui.println("Autosaved");
 	}
 
 	public void manualSave() {
-		String fileName = user.askSaveName(saveFolder.listFiles()) + ".save";
-		gatherSaveData();
-		if (new File(saveFolder, fileName).exists()){
-			if(user.askConfirmOverwrite()){
+		try {
+			String fileName = user.askSaveName(saveFolder.listFiles()) + ".save";
+			gatherSaveData();
+			if (new File(saveFolder, fileName).exists()){
+				if(user.askConfirmOverwrite()){
+					save(fileName);
+				} else {
+					manualSave();
+				}
+			} else {
 				save(fileName);
 			}
+			ui.println("Saved");
+		} catch (Cancel c){
+			//skip to the end of the save
 		}
 	}
 
