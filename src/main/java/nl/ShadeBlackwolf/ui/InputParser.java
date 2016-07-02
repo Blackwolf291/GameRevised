@@ -17,6 +17,9 @@ public class InputParser {
 	@Autowired
 	private UserRequestHandler user;
 	
+	@Autowired 
+	private PersistenceUserRequestHandler pUser;
+	
 	@Autowired
 	private RaceFinder raceFinder;
 	
@@ -35,11 +38,11 @@ public class InputParser {
 	}
 	
 	public File getFileFromSaves(File[] saves) {
-		File f = new File(getCapSensitiveString());
+		File f = new File("saves", getCapSensitiveString() + ".save");
 		if(f.exists()){
 			return f;
 		}
-		return user.reaskLoad();
+		return pUser.reaskLoad();
 	}
 
 	public String getCancellableCapSensitiveString() {

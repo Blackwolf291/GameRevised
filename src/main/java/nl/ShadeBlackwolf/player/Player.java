@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import nl.ShadeBlackwolf.persistance.Savable;
+import nl.ShadeBlackwolf.persistance.SaveContentParser;
 import nl.ShadeBlackwolf.player.bodyparts.Arms;
 import nl.ShadeBlackwolf.player.bodyparts.Cock;
 import nl.ShadeBlackwolf.player.bodyparts.Head;
@@ -30,6 +32,9 @@ public class Player implements Savable{
 	Random r = new Random();
 
 	private Perk perk;
+	
+	@Autowired
+	private SaveContentParser saveParser;
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -81,10 +86,6 @@ public class Player implements Savable{
 		return name;
 	}
 
-	public Head getHead() {
-		return head;
-	}
-
 	public Perk getPerk() {
 		return perk;
 	}
@@ -105,7 +106,12 @@ public class Player implements Savable{
 
 	@Override
 	public void restoreFields(Map<String, String> storedData){
-		name = storedData.get(name);
+		name = storedData.get("name");
+		head = saveParser.getHead(storedData.get("head"));
+		cock = saveParser.getCock(storedData.get("cock"));
+		torso = saveParser.getTorso(storedData.get("torso"));
+		legs = saveParser.getLegs(storedData.get("legs"));
+		arms = saveParser.getArms(storedData.get("arms"));
 	}
 	
 	private String getTails() {
@@ -123,5 +129,4 @@ public class Player implements Savable{
 	public void setCock(Cock cock) {
 		this.cock = cock;
 	}
-
 }

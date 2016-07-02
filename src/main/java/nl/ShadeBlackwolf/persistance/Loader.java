@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import nl.ShadeBlackwolf.ui.UserRequestHandler;
+import nl.ShadeBlackwolf.ui.PersistenceUserRequestHandler;
 
 @Component
 public class Loader {
@@ -19,10 +21,15 @@ public class Loader {
 	private Savable[] savables;
 	
 	@Autowired
-	private UserRequestHandler user;
+	private PersistenceUserRequestHandler user;
 	
 	private Map<String, String> storedData = new HashMap<>();
 	private File saveFolder = new File ("saves");
+	
+	@PostConstruct
+	public void makeSaveDirectory(){
+		if (!saveFolder.exists()){saveFolder.mkdirs();}
+	}
 	
 	public void load() {
 		clearCache();

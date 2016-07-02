@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import nl.ShadeBlackwolf.UI;
 import nl.ShadeBlackwolf.exceptions.Cancel;
-import nl.ShadeBlackwolf.ui.UserRequestHandler;
+import nl.ShadeBlackwolf.ui.PersistenceUserRequestHandler;
 
 @Component
 public class Saver {
@@ -23,7 +23,7 @@ public class Saver {
 	private Savable[] savables;
 	
 	@Autowired
-	private UserRequestHandler user;
+	private PersistenceUserRequestHandler user;
 	
 	private File saveFolder = new File ("saves");
 	private Map<String, String> saveData = new HashMap<>();

@@ -4,14 +4,21 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import nl.ShadeBlackwolf.player.Player;
 
 @Component
 public class SaveTestUtils {
 
+	@Autowired
+	private Player player;
+	
 	public void destroyAllSaves() {
 		File saves = new File("saves");
 		for (File s : saves.listFiles()){
@@ -36,4 +43,10 @@ public class SaveTestUtils {
 	}
 	
 
+	public Object getPrivatePlayerField(String field) throws IllegalAccessException, NoSuchFieldException {
+		Field f = Player.class.getDeclaredField(field);
+		f.setAccessible(true);
+		return f.get(player);
+	}
+	
 }

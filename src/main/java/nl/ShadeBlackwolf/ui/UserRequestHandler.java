@@ -1,14 +1,9 @@
 package nl.ShadeBlackwolf.ui;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import nl.ShadeBlackwolf.player.Perk;
-import nl.ShadeBlackwolf.player.Player;
 import nl.ShadeBlackwolf.player.PlayerRace;
 
 @Component
@@ -19,10 +14,7 @@ public class UserRequestHandler {
 	
 	@Autowired
 	private InputParser inputParser;
-	
-	@Autowired
-	private Player player;
-	
+		
 	public String askName() {
 		ui.println("A Bear of a sailor blocks access to the cruiseship you were lucky enough to win tickets for.");
 		ui.println("He smiles a gentle smile. \"I'm sorry sir, I just need to ask you a few questions for the record.");
@@ -41,8 +33,6 @@ public class UserRequestHandler {
 		ui.println("Currently supported races are: wolf, fox, dragon, raccoon");
 		return inputParser.getRace();
 	}
-	
-	
 
 	public Perk askPerk() {
 		ui.println("\"And this one is out of personal interrest. What is your biggest strength?\"");
@@ -56,42 +46,9 @@ public class UserRequestHandler {
 		return inputParser.getPerk();
 	}
 
-	public boolean askConfirmOverwrite() {
-		// TODO Auto-generated method stub
-		return inputParser.getBoolean();
-	}
-
 	public boolean reaskBoolean() {
-		// TODO Auto-generated method stub
+		ui.println("That's not really a yes or no answer.");
 		return inputParser.getBoolean();
 	}
 
-	public File askWhichLoad(File[] saves) {
-		ui.println("Which file would you like to load?");
-		displaySaves(saves);
-		return inputParser.getFileFromSaves(saves);
-	}
-
-	public String askSaveName(File[] files) {
-		ui.println("What would you like to name your savegame?");
-		ui.println("Current save files: (can be overwritten)");
-		displaySaves(files);
-		ui.setInput(player.getName());
-		return inputParser.getCancellableCapSensitiveString();
-	}
-
-	public void displaySaves(File[] files) {
-		for (File f : files){
-			try {
-				ui.println(f.getName() + ", saved:" + Files.getLastModifiedTime(f.toPath()));
-			} catch (IOException e) {
-				//ignore and proceed
-			}
-		}
-	}
-
-	public File reaskLoad() {
-		ui.println("That is not a file");
-		return null;
-	}
 }
