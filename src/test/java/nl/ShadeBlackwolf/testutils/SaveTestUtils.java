@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import nl.ShadeBlackwolf.player.Player;
+import nl.ShadeBlackwolf.player.bodyparts.Tail;
 
 @Component
 public class SaveTestUtils {
@@ -48,5 +50,10 @@ public class SaveTestUtils {
 		f.setAccessible(true);
 		return f.get(player);
 	}
-	
+
+	public void clearTails() throws Exception {
+		Field f = Player.class.getDeclaredField("tails");
+		f.setAccessible(true);
+		f.set(player, new ArrayList<Tail>());
+	}
 }

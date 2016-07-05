@@ -1,5 +1,8 @@
 package nl.ShadeBlackwolf.persistance;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +12,7 @@ import nl.ShadeBlackwolf.player.bodyparts.Arms;
 import nl.ShadeBlackwolf.player.bodyparts.Cock;
 import nl.ShadeBlackwolf.player.bodyparts.Head;
 import nl.ShadeBlackwolf.player.bodyparts.Legs;
+import nl.ShadeBlackwolf.player.bodyparts.Tail;
 import nl.ShadeBlackwolf.player.bodyparts.Torso;
 
 @Component
@@ -38,6 +42,15 @@ public class SaveContentParser {
 
 	public Arms getArms(String race) {
 		return builder.getArms(raceFinder.getRace(race));
+	}
+
+	public List<Tail> getTails(String races) {
+		String[] racesAsStrings = races.split(" ");
+		List<Tail> tails = new ArrayList<>();
+		for (String s : racesAsStrings){
+			tails.add(builder.getTail(raceFinder.getRace(s)));
+		}
+		return tails;
 	}
 
 }

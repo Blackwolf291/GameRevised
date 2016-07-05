@@ -115,8 +115,10 @@ public class SaveTest {
 	}
 
 	@After
-	public void cleanup(){
+	public void cleanup() throws Exception{
 		ui.clearText();
 		utils.destroyAllSaves();
+		utils.clearTails();
 	}
+
 }

@@ -35,22 +35,51 @@ public class Player implements Savable{
 	
 	@Autowired
 	private SaveContentParser saveParser;
+	
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	public void setBody(PlayerRace playerRace) {
-		head = playerRace.getHead();
-		torso = playerRace.getTorso();
-		arms = playerRace.getArms();
-		legs = playerRace.getLegs();
-		if (tails.size() == 0){
-			tails.add(playerRace.getTail());
-		} else {
-			tails.remove(r.nextInt(tails.size()));
-			tails.add(playerRace.getTail());
-		}
-		cock = playerRace.getCock();
+		setHead(playerRace.getHead());
+		setTorso(playerRace.getTorso());
+		setArms(playerRace.getArms());
+		setLegs(playerRace.getLegs());
+		addTail(playerRace.getTail());
+		setCock(playerRace.getCock());
+	}
+
+	public void setHead(Head head) {
+		this.head = head;
+	}
+
+	public void setCock(Cock cock) {
+		this.cock = cock;
+	}
+
+	public void setTorso(Torso torso){
+		this.torso = torso;
+	}
+	
+	public void setArms(Arms arms) {
+		this.arms = arms;
+	}
+
+	public void setLegs(Legs legs) {
+		this.legs = legs;
+	}
+
+	public void changeTail(Tail tail) {
+		tails.remove(r.nextInt(tails.size()));
+		addTail(tail);
+	}
+
+	public void addTail(Tail tail) {
+		tails.add(tail);
+	}
+	
+	public void removeTail(){
+		tails.remove(tails.size());
 	}
 	
 	public void setStats() {
@@ -107,13 +136,19 @@ public class Player implements Savable{
 	@Override
 	public void restoreFields(Map<String, String> storedData){
 		name = storedData.get("name");
-		head = saveParser.getHead(storedData.get("head"));
-		cock = saveParser.getCock(storedData.get("cock"));
-		torso = saveParser.getTorso(storedData.get("torso"));
-		legs = saveParser.getLegs(storedData.get("legs"));
-		arms = saveParser.getArms(storedData.get("arms"));
+		setHead(saveParser.getHead(storedData.get("head")));
+		setCock(saveParser.getCock(storedData.get("cock")));
+		setTorso(saveParser.getTorso(storedData.get("torso")));
+		setLegs(saveParser.getLegs(storedData.get("legs")));
+		setArms(saveParser.getArms(storedData.get("arms")));
+		setTails(saveParser.getTails(storedData.get("tails")));
+		setPerk(Perk.valueOf(storedData.get("perk")));
 	}
 	
+	private void setTails(List<Tail> tails) {
+		this.tails = tails;
+	}
+
 	private String getTails() {
 		String result = "";
 		for (Tail tail : tails){
@@ -122,11 +157,4 @@ public class Player implements Savable{
 		return result.trim();
 	}
 
-	public void setHead(Head head) {
-		this.head = head;
-	}
-
-	public void setCock(Cock cock) {
-		this.cock = cock;
-	}
 }

@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,11 +22,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import nl.ShadeBlackwolf.AppConfig;
 import nl.ShadeBlackwolf.player.Player;
+import nl.ShadeBlackwolf.player.bodyparts.Tail;
 import nl.ShadeBlackwolf.player.species.dragon.DragonArms;
 import nl.ShadeBlackwolf.player.species.dragon.DragonHead;
+import nl.ShadeBlackwolf.player.species.dragon.DragonTail;
 import nl.ShadeBlackwolf.player.species.fox.FoxLegs;
+import nl.ShadeBlackwolf.player.species.fox.FoxTail;
 import nl.ShadeBlackwolf.player.species.raccoon.RaccoonTorso;
 import nl.ShadeBlackwolf.player.species.wolf.WolfCock;
+import nl.ShadeBlackwolf.player.species.wolf.WolfTail;
 import nl.ShadeBlackwolf.testutils.SaveTestUtils;
 import nl.ShadeBlackwolf.ui.GameScreen;
 import nl.ShadeBlackwolf.ui.InputParser;
@@ -70,13 +74,24 @@ public class LoadTest implements ApplicationContextAware {
 		assertEquals(context.getBean(RaccoonTorso.class), utils.getPrivatePlayerField("torso"));
 		assertEquals(context.getBean(FoxLegs.class), utils.getPrivatePlayerField("legs"));
 		assertEquals(context.getBean(DragonArms.class), utils.getPrivatePlayerField("arms"));
+		assertEquals(getTailsList(), utils.getPrivatePlayerField("tails"));
+	}
+
+	private List<Tail> getTailsList() {
+		List<Tail> tails = new ArrayList<>();
+		tails.add(context.getBean(WolfTail.class));
+		tails.add(context.getBean(FoxTail.class));
+		tails.add(context.getBean(DragonTail.class));
+		tails.add(context.getBean(WolfTail.class));
+		return tails;
 	}
 
 	@After
-	public void cleanup(){
+	public void cleanup() throws Exception{
 		ui.clearText();
 		ui.setInput("");
 		utils.destroyAllSaves();
+		utils.clearTails();
 	}
 
 	private void ensureSaveFile() throws IOException, AssertionError {
@@ -88,6 +103,8 @@ public class LoadTest implements ApplicationContextAware {
 			w.println("torso:raccoon");
 			w.println("legs:fox");
 			w.println("arms:dragon");
+			w.println("perk:hung");
+			w.println("tails:wolf fox dragon wolf");
 		}
 		if (!(f.createNewFile()||f.exists())){
 			throw new AssertionError();
