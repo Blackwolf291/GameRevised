@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
+import nl.ShadeBlackwolf.exceptions.ExceptionLogger;
+import nl.ShadeBlackwolf.locations.LocationBuilder;
 import nl.ShadeBlackwolf.player.PlayerBuilder;
 import nl.ShadeBlackwolf.ui.InputParser;
 
@@ -21,6 +23,9 @@ public class GameRevisedApplication {
 	
 	@Autowired 
 	private UI ui;
+
+	@Autowired
+	private LocationBuilder locationBuilder;
 	
 	@Autowired
 	private PlayerBuilder playerBuilder;
@@ -54,6 +59,7 @@ public class GameRevisedApplication {
 
 	private void setupGame() {
 		ui.run();
+		locationBuilder.build();
 		playerBuilder.makePlayer();
 	}
 	

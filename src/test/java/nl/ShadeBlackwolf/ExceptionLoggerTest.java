@@ -14,6 +14,8 @@ import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import nl.ShadeBlackwolf.exceptions.ExceptionLogger;
+
 import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
