@@ -19,6 +19,7 @@ import nl.ShadeBlackwolf.ui.PersistenceUserRequestHandler;
 @Component
 public class Saver {
 
+	
 	@Autowired
 	private Savable[] savables;
 	
@@ -93,6 +94,11 @@ public class Saver {
 
 	private void gatherSaveData() {
 		for (Savable savable: savables){
+			for (String key : savable.getPersistMap().keySet()){
+				if (saveData.containsKey(key)){
+					throw new DuplicateSaveVariable();
+				}
+			}
 			saveData.putAll(savable.getPersistMap());
 		}
 	}
@@ -112,5 +118,5 @@ public class Saver {
 			super(e);
 		}
 	}
-	
+	private class DuplicateSaveVariable extends RuntimeException {}
 }
