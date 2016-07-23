@@ -1,2 +1,9 @@
-/bin/
-/target/
+bin/**
+target/**
+.classpath
+error.log
+.mvn/**
+.settings/**
+mvnw
+mvnw.cmd
+saves
