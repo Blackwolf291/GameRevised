@@ -3,6 +3,7 @@ package nl.ShadeBlackwolf.ui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import nl.ShadeBlackwolf.WorldAction;
 import nl.ShadeBlackwolf.player.Perk;
 import nl.ShadeBlackwolf.player.PlayerRace;
 
@@ -49,6 +50,11 @@ public class UserRequestHandler {
 	public boolean reaskBoolean() {
 		ui.println("That's not really a yes or no answer.");
 		return inputParser.getBoolean();
+	}
+
+	public WorldAction askAction() {
+		ui.println("what will you do now?");
+		return inputParser.getWorldAction();
 	}
 
 }

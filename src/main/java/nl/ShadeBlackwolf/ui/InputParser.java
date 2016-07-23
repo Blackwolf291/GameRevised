@@ -6,10 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import nl.ShadeBlackwolf.WorldAction;
 import nl.ShadeBlackwolf.exceptions.Cancel;
 import nl.ShadeBlackwolf.player.Perk;
 import nl.ShadeBlackwolf.player.PlayerRace;
 import nl.ShadeBlackwolf.player.RaceFinder;
+import nl.ShadeBlackwolf.worldactions.ConfusedAction;
 
 @Component
 public class InputParser {
@@ -114,5 +116,20 @@ public class InputParser {
 	
 	private class NotABooleanException extends RuntimeException{
 		private static final long serialVersionUID = 1L;}
+
+	@Autowired
+	public WorldAction[] worldActions;
+	
+	@Autowired
+	public ConfusedAction confused; 
+	
+	public WorldAction getWorldAction() {
+		for (WorldAction action : worldActions){
+			if(action.inputMatchesAction(getString())){
+				return action;
+			}
+		}
+		return confused;
+	}
 
 }

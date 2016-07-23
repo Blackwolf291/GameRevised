@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import nl.ShadeBlackwolf.exceptions.ExceptionLogger;
 import nl.ShadeBlackwolf.locations.LocationBuilder;
+import nl.ShadeBlackwolf.persistance.Loader;
 import nl.ShadeBlackwolf.player.PlayerBuilder;
 import nl.ShadeBlackwolf.ui.InputParser;
 
@@ -29,6 +30,9 @@ public class GameRevisedApplication {
 	
 	@Autowired
 	private PlayerBuilder playerBuilder;
+	
+	@Autowired
+	private Loader loader;
 	
 	public static void main(String... args) {
 			ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
@@ -60,6 +64,7 @@ public class GameRevisedApplication {
 	private void setupGame() {
 		ui.run();
 		locationBuilder.build();
+		loader.load();
 		playerBuilder.makePlayer();
 	}
 	
