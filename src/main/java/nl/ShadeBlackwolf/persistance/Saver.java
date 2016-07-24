@@ -27,7 +27,11 @@ public class Saver {
 	private PersistenceUserRequestHandler user;
 	
 	private File saveFolder = new File ("saves");
-	private Map<String, String> saveData = new HashMap<>();
+	private Map<String, String> saveData = getClearedMap();
+
+	private HashMap<String, String> getClearedMap() {
+		return new HashMap<>();
+	}
 	
 	@Autowired
 	private UI ui;
@@ -93,13 +97,13 @@ public class Saver {
 	}
 
 	private void gatherSaveData() {
+		saveData = getClearedMap();
 		for (Savable savable: savables){
 			for (String key : savable.getPersistMap().keySet()){
 				if (saveData.containsKey(key)){
-					throw new DuplicateSaveVariable();
-				}
+					throw new DuplicateSaveVariable(key);
+				} saveData.put(key, savable.getPersistMap().get(key));
 			}
-			saveData.putAll(savable.getPersistMap());
 		}
 	}
 
@@ -118,5 +122,9 @@ public class Saver {
 			super(e);
 		}
 	}
-	private class DuplicateSaveVariable extends RuntimeException {}
+	private class DuplicateSaveVariable extends RuntimeException {
+
+		public DuplicateSaveVariable(String key) {
+			super(key);
+		}}
 }
