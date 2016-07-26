@@ -116,8 +116,6 @@ public class Saver {
 	}
 	private class SaveFailedException extends RuntimeException{
 		
-		private static final long serialVersionUID = 1L;
-
 		SaveFailedException(Exception e){
 			super(e);
 		}
